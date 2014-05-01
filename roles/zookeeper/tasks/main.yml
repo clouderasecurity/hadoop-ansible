@@ -1,0 +1,13 @@
+---
+  - name: Install zookeeper
+    yum: name=zookeeper-server state=latest
+    when: ansible_os_family == "RedHat"
+  
+  - name: Set zookeeper configuration
+    template: src=zoo.cfg.j2 dest=/etc/zookeeper/conf.dist/zoo.cfg owner=root group=root mode=0644
+    notify: restart zookeeper
+    when: ansible_os_family == "RedHat"
+
+  - name: Start zookeeper service
+    service: name=zookeeper-server enabled=yes state=started
+    when: ansible_os_family == "RedHat"

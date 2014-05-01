@@ -1,0 +1,8 @@
+---
+  - name: Install Hadoop namenode
+    yum: name=hadoop-hdfs-namenode state=latest
+    when: ansible_os_family == "RedHat"
+
+  - name: Start Hadoop namenode service
+    service: name=hadoop-hdfs-namenode enabled=yes state=started
+    when: ansible_os_family == "RedHat"

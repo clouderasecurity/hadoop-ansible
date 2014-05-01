@@ -1,0 +1,24 @@
+---
+  - name: Add Cloudera CDH5 repository to yum configuration
+    template: src=cloudera.repo.j2 dest=/etc/yum.repos.d/cloudera.repo owner=root group=root mode=0644
+    when: ansible_os_family == "RedHat"
+
+  - name: Add Cloudera GPG signing key to rpm DB
+    rpm_key: state=present key=http://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera
+    when: ansible_os_family == "RedHat"
+  
+  # TODO - configure iptables for Hadoop
+  - name: Disable iptables
+    service: name=iptables enabled=no state=stopped
+    when: ansible_os_family == "RedHat"
+
+  - name: Disable selinux
+    command: setenforce 0
+    command: sed -i s/SELINUX=enforcing/SELINUX=disabled/ /etc/selinux/config
+    when: ansible_os_family == "RedHat"
+
+  - name: Install OpenJDK
+    yum: name=java-1.7.0-openjdk state=latest
+    when: ansible_os_family == "RedHat"
+  
+  # TODO - configure alternatives for Java

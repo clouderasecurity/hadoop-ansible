@@ -1,0 +1,16 @@
+---
+  - name: Install Hadoop datanode packages
+    yum: name={{ item }} state=latest
+    with_items:
+      - hadoop-yarn-nodemanager 
+      - hadoop-hdfs-datanode
+      - hadoop-mapreduce
+    when: ansible_os_family == "RedHat"
+    
+  - name: Start datanode services
+    service: name={{ item }} enabled=yes state=started
+    with_items:
+      - hadoop-yarn-nodemanager
+      - hadoop-hdfs-datanode
+      - hadoop-mapreduce
+    when: ansible_os_family == "RedHat"

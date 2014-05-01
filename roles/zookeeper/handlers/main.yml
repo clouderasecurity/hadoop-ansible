@@ -1,0 +1,4 @@
+---
+  - name: restart zookeeper
+    service: name=zookeeper-server enabled=yes state=restarted
+    when: ansible_os_family == "RedHat"

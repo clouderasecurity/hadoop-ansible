@@ -1,0 +1,5 @@
+*pyc
+*pyo
+venv
+hosts
+*DS_Store
