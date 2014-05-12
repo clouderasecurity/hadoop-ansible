@@ -1,8 +1,6 @@
 ---
   - name: Install Hadoop secondary-namenode
     yum: name=hadoop-hdfs-secondarynamenode state=present
-    when: ansible_os_family == "RedHat"
 
   - name: Start Hadoop secondary-namenode service
     service: name=hadoop-hdfs-secondarynamenode enabled=yes state=started
-    when: ansible_os_family == "RedHat"

@@ -20,6 +20,11 @@
       - hadoop-mapreduce
     when: ansible_os_family == "RedHat"
 
+  - name: Create datanode directories (if not present)
+    file: path={{ item.0 }} state=directory owner=hdfs group=hdfs mode=700
+    with_together:
+      - dfs_datanode_data_dir
+
   - name: Start datanode services
     service: name={{ item }} enabled=yes state=started
     with_items:
