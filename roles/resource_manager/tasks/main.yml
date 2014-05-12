@@ -1,6 +1,6 @@
 ---
   - name: Install Hadoop resource-manager (jobtracker)
-    yum: name=hadoop-yarn-resourcemanager state=latest
+    yum: name=hadoop-yarn-resourcemanager state=present
     when: ansible_os_family == "RedHat"
   
   - name: Start zookeeper service

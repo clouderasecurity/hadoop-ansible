@@ -1,14 +1,26 @@
+# Copyright 2014, Gazzang Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 ---
   - name: Add Cloudera CDH5 repository to yum configuration
-    template: src=cloudera.repo.j2 dest=/etc/yum.repos.d/cloudera.repo owner=root group=root mode=0644
+    template: src=etc/yum.repos.d/cloudera.repo.j2 dest=/etc/yum.repos.d/cloudera.repo owner=root group=root mode=0644
     when: ansible_os_family == "RedHat"
 
   - name: Add Cloudera GPG signing key to rpm DB
     rpm_key: state=present key=http://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera
     when: ansible_os_family == "RedHat"
-  
-  # TODO - configure iptables for Hadoop
-  - name: Disable iptables
+
+  - name: Disable iptables # TODO configure iptables for Hadoop
     service: name=iptables enabled=no state=stopped
     when: ansible_os_family == "RedHat"
 
@@ -17,8 +29,9 @@
     command: sed -i s/SELINUX=enforcing/SELINUX=disabled/ /etc/selinux/config
     when: ansible_os_family == "RedHat"
 
-  - name: Install OpenJDK
-    yum: name=java-1.7.0-openjdk state=latest
+  - name: Install java
+    yum: name=java-1.7.0-openjdk state=present
     when: ansible_os_family == "RedHat"
-  
-  # TODO - configure alternatives for Java
+
+  - name: Configure hosts
+    template: src=etc/hosts.j2 dest=/etc/hosts owner=root group=root mode=0644

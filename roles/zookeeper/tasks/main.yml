@@ -1,6 +1,6 @@
 ---
   - name: Install zookeeper
-    yum: name=zookeeper-server state=latest
+    yum: name=zookeeper-server state=present
     when: ansible_os_family == "RedHat"
   
   - name: Set zookeeper configuration

@@ -1,8 +1,20 @@
 ---
   - name: Install Hadoop namenode
-    yum: name=hadoop-hdfs-namenode state=latest
-    when: ansible_os_family == "RedHat"
+    yum: name=hadoop-hdfs-namenode state=present
 
-  - name: Start Hadoop namenode service
+  - name: Create namenode directories (if not present)
+    file: path={{ item.0 }} state=directory owner=hdfs group=hdfs mode=0700
+    with_together:
+      - dfs_namenode_data_dir
+
+  - name: Start Hadoop namenode service (ignoring errors)
     service: name=hadoop-hdfs-namenode enabled=yes state=started
-    when: ansible_os_family == "RedHat"
+    register: first_start
+    ignore_errors: True
+
+  - name: Format namenode (if start command failed)
+    command: su hdfs -c 'hdfs namenode -format'
+    when: first_start.failed
+
+  - name: Ensure namenode has started
+    service: name=hadoop-hdfs-namenode enabled=yes state=started

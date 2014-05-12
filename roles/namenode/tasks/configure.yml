@@ -1,0 +1,6 @@
+---
+  - name: Create datanode directories (if not present)
+    file: path={{ item.0 }} state=directory owner=hdfs group=hdfs mode=700
+    with_together:
+      - dfs_datanode_data_dir
+

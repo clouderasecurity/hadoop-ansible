@@ -1,0 +1,21 @@
+---
+  - name: Create Hadoop configuration directory (if not present)
+    file: path=/etc/hadoop/conf.{{ cluster_name }} state=directory owner=root group=root mode=755
+
+  - name: Set Hadoop configuration
+    template: src=etc/hadoop/conf/{{ item }}.j2 dest=/etc/hadoop/conf.{{ cluster_name }}/{{ item }} owner=root group=root mode=644
+    with_items:
+      - configuration.xsl
+      - core-site.xml
+      - hadoop-metrics.properties
+      - hadoop-metrics2.properties
+      - hadoop-policy.xml
+      - hdfs-site.xml
+      - log4j.properties
+      - slaves
+
+  - name: Add new configuration to alternatives
+    command: update-alternatives --install /etc/hadoop/conf hadoop-conf /etc/hadoop/conf.{{ cluster_name }} 100
+
+  - name: Update alternatives to point to new Hadoop configuration
+    command: update-alternatives --set hadoop-conf /etc/hadoop/conf.{{ cluster_name }}

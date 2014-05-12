@@ -1,0 +1,3 @@
+---
+- name: format namenode
+  command: su hdfs -c 'hdfs namenode -format'
