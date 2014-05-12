@@ -24,4 +24,8 @@ Fill in the inventory file (typically just a `hosts` file in the root directory)
 ./run-playbook.sh
 ```
 
-You might need to add extra configurations if your SSH is not already configured.
+You might need to add extra configurations if your SSH is not already configured. For my personal configuration (using vagrant), I use:
+
+```
+./run-playbook.sh --private-key=~/.vagrant.d/insecure_private_key
+```

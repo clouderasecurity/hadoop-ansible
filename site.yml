@@ -27,7 +27,7 @@
     roles:
       - namenode
 
-  - hosts: datanode
+  - hosts: secondary_namenode
     sudo: yes
     roles:
-      - datanode
+      - secondary_namenode

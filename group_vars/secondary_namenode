@@ -1,6 +1,6 @@
-max_client_connections: 50
-tick_time: 2000
-init_limit: 10
-sync_limit: 5
-data_dir: /var/lib/zookeeper
-client_port: 2181
+# TODO - extra configuration for secondary namenode
+dfs_namenode_checkpoint_check_period: 0
+dfs_namenode_checkpoint_txns: 0
+dfs_namenode_checkpoint_dir: 0
+dfs_namenode_checkpoint_edits_dir: 0
+dfs_namenode_num_checkpoints_retained: 0

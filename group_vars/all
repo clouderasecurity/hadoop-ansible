@@ -1,9 +1,9 @@
+configuration_directory: /etc/hadoop
 cluster_name: ansible
 
 # core-site.xml variables
 default_fs_port: 8020
 
 # hdfs-site.xml variables
-#dfs_name_dir: [ "/var/lib/hadoop-hdfs/cache/hdfs/dfs/name" ]
 dfs_namenode_data_dir: [ "/data/1/dfs/nn", "/data/2/dfs/nn" ]
 dfs_datanode_data_dir: [ "/data/1/dfs/dn", "/data/2/dfs/dn" ]

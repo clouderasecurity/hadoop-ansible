@@ -18,7 +18,6 @@
       - hadoop-yarn-nodemanager 
       - hadoop-hdfs-datanode
       - hadoop-mapreduce
-    when: ansible_os_family == "RedHat"
 
   - name: Create datanode directories (if not present)
     file: path={{ item.0 }} state=directory owner=hdfs group=hdfs mode=700
@@ -31,4 +30,9 @@
       - hadoop-yarn-nodemanager
       - hadoop-hdfs-datanode
       - hadoop-mapreduce
-    when: ansible_os_family == "RedHat"
+
+  - name: Create HDFS /tmp directory
+    command: su hdfs -c 'hadoop fs -mkdir /tmp'
+
+  - name: Set the correct permission on the HDFS /tmp directory
+    command: su hdfs -c 'hadoop fs -chmod -R 1777 /tmp'

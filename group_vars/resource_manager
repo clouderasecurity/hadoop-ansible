@@ -1,3 +1,4 @@
+# Extra configuration settings for resource manager
 max_client_connections: 50
 tick_time: 2000
 init_limit: 10
