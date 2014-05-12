@@ -1,0 +1,6 @@
+---
+  - name: Install Hadoop jobtracker service
+    yum: name=hadoop-0.20-mapreduce-jobtracker state=present
+
+  - name: Start Hadoop jobtracker service
+    service: name=hadoop-0.20-mapreduce-jobtracker enabled=yes state=started

@@ -31,3 +31,13 @@
     sudo: yes
     roles:
       - secondary_namenode
+
+  - hosts: jobtracker
+    sudo: yes
+    roles:
+      - jobtracker
+
+  - hosts: datanode
+    sudo: yes
+    roles:
+      - datanode

@@ -7,3 +7,6 @@ default_fs_port: 8020
 # hdfs-site.xml variables
 dfs_namenode_data_dir: [ "/data/1/dfs/nn", "/data/2/dfs/nn" ]
 dfs_datanode_data_dir: [ "/data/1/dfs/dn", "/data/2/dfs/dn" ]
+
+# mapreduce directories
+mapred_local_dir: [ "/data/1/mapred/local", "/data/2/mapred/local" ]

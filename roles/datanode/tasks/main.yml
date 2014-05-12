@@ -15,24 +15,49 @@
   - name: Install Hadoop datanode packages
     yum: name={{ item }} state=present
     with_items:
-      - hadoop-yarn-nodemanager 
       - hadoop-hdfs-datanode
-      - hadoop-mapreduce
+      - hadoop-0.20-mapreduce-tasktracker
 
   - name: Create datanode directories (if not present)
     file: path={{ item.0 }} state=directory owner=hdfs group=hdfs mode=700
     with_together:
       - dfs_datanode_data_dir
 
-  - name: Start datanode services
+  - name: Create mapreduce directories (if not present)
+    file: path={{ item.0 }} state=directory owner=mapred group=hadoop mode=755
+    with_together:
+      - mapred_local_dir
+    ignore_errors: True
+
+  - name: Start datanode service
     service: name={{ item }} enabled=yes state=started
     with_items:
-      - hadoop-yarn-nodemanager
       - hadoop-hdfs-datanode
-      - hadoop-mapreduce
 
-  - name: Create HDFS /tmp directory
-    command: su hdfs -c 'hadoop fs -mkdir /tmp'
+  - name: Create HDFS directory structure
+    command: sudo -u hdfs hadoop fs -mkdir -p {{ item }}
+    with_items:
+      - /tmp
+      - /tmp/mapred/system
+      - /var/lib/hadoop-hdfs/cache/mapred/mapred/staging
+    ignore_errors: True
 
-  - name: Set the correct permission on the HDFS /tmp directory
-    command: su hdfs -c 'hadoop fs -chmod -R 1777 /tmp'
+  - name: Set the correct permission on the HDFS directory structure
+    command: sudo -u hdfs hadoop fs -chmod 1777 {{ item }}
+    with_items:
+      - /tmp
+      - /var/lib/hadoop-hdfs/cache/mapred/mapred/staging
+    ignore_errors: True
+
+  - name: Set correct owner and group for HDFS mapred directories
+    command: sudo -u hdfs hadoop fs -chown -R mapred:hadoop {{ item }}
+    with_items:
+      - /tmp/mapred/system
+      - /var/lib/hadoop-hdfs/cache/mapred
+    ignore_errors: True
+
+  - name: Start tasktracker service
+    service: name={{ item }} enabled=yes state=started
+    with_items:
+      - hadoop-0.20-mapreduce-tasktracker
+    ignore_errors: True

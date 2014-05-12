@@ -12,6 +12,7 @@
       - hadoop-policy.xml
       - hdfs-site.xml
       - log4j.properties
+      - mapred-site.xml
       - slaves
 
   - name: Add new configuration to alternatives
