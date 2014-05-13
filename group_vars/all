@@ -1,3 +1,4 @@
+# Variables for Hadoop playbook
 configuration_directory: /etc/hadoop
 cluster_name: ansible
 

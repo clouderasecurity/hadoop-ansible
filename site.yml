@@ -12,32 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-  - hosts: all
-    sudo: yes
-    roles:
-      - common
+- hosts: all
+  sudo: yes
+  roles:
+    - common
 
-  - hosts: hadoop
-    sudo: yes
-    roles:
-      - hadoop
+- hosts: hadoop
+  sudo: yes
+  roles:
+    - hadoop
 
-  - hosts: namenode
-    sudo: yes
-    roles:
-      - namenode
+- hosts: master
+  sudo: yes
+  roles:
+    - namenode
+    - secondary_namenode
+    - jobtracker
 
-  - hosts: secondary_namenode
-    sudo: yes
-    roles:
-      - secondary_namenode
-
-  - hosts: jobtracker
-    sudo: yes
-    roles:
-      - jobtracker
-
-  - hosts: datanode
-    sudo: yes
-    roles:
-      - datanode
+- hosts: worker
+  sudo: yes
+  roles:
+    - datanode

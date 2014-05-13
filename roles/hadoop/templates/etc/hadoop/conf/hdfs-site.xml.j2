@@ -31,7 +31,7 @@
   </property>
   <property>
     <name>dfs.namenode.http-address</name>
-    <value>{% for host in groups['namenode'] %}{{ hostvars[host]['ansible_fqdn'] }}:50070{% if not loop.last %},{% endif %}{% endfor %}</value>
+    <value>{% for group, hosts in groups.iteritems() %}{% for host in hosts %}{% if hostvars[host]['ansible_fqdn'] ==  ansible_fqdn and group == 'namenode' %}0.0.0.0:50070{% endif %}{% endfor %}{% endfor %}{% for host in groups['namenode'] %}{% if hostvars[host]['ansible_fqdn'] != ansible_fqdn %}{{ hostvars[host]['ansible_fqdn'] }}:50070{% endif %}{% if not loop.last %},{% endif %}{% endfor %}</value>
     <description>
       The address and the base port on which the dfs NameNode Web UI will listen.
     </description>

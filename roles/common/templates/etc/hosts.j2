@@ -1,9 +1,11 @@
 127.0.0.1   {{ ansible_fqdn }} {{ ansible_hostname }} localhost localhost.localdomain localhost4 localhost4.localdomain4
 
 {% for group, hosts in groups.iteritems() %}
-{% if group != "all" %}
+{% if group != "all" or group != "ungrouped" or group != "all" %}
 {% for host in hosts %}
-{{ hostvars[host]['ansible_default_ipv4']['address'] }}   {{ host }} {{ group }}{{ loop.index }}
+{% if host != "localhost" %}
+{{ hostvars[host]['ansible_default_ipv4']['address'] }}   {{ group }}{{ loop.index }}
+{% endif %}
 {% endfor %}
 {% endif %}
 {% endfor %}

@@ -19,6 +19,6 @@
 <configuration>
   <property>
    <name>fs.defaultFS</name>
-   <value>{% for host in groups['namenode'] %}hdfs://{{ hostvars[host]['ansible_fqdn'] }}:{{ default_fs_port }}{% if not loop.last %},{% endif %}{% endfor %}</value>
+   <value>{% for group, hosts in groups.iteritems() %}{% for host in hosts %}{% if hostvars[host]['ansible_fqdn'] == ansible_fqdn and group == 'namenode' %}hdfs://0.0.0.0:{{ default_fs_port }}{% endif %}{% endfor %}{% endfor %}{% for host in groups['namenode'] %}{% if hostvars[host]['ansible_fqdn'] != ansible_fqdn %}hdfs://{{ hostvars[host]['ansible_fqdn'] }}:{{ default_fs_port }}{% endif %}{% if not loop.last %},{% endif %}{% endfor %}</value>
   </property>
 </configuration>

@@ -3,3 +3,5 @@
 venv
 hosts
 *DS_Store
+*credentials
+roles/ec2_allocation

@@ -12,8 +12,6 @@
     register: first_start
     ignore_errors: True
 
-  - debug: var=first_start
-
   - name: Format namenode (if start command failed)
     command: su hdfs -c 'hdfs namenode -format'
     when: first_start.failed is defined and first_start.failed
